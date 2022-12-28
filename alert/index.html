@@ -351,6 +351,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#the-alert-is-a-post-request-with-the-payload-which-is-essentially-the-relevant-event-data-as-shown-below_1" class="md-nav__link">
+    The alert is a POST request with the payload, which is essentially the relevant event data, as shown below.
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -562,6 +569,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#the-alert-is-a-post-request-with-the-payload-which-is-essentially-the-relevant-event-data-as-shown-below_1" class="md-nav__link">
+    The alert is a POST request with the payload, which is essentially the relevant event data, as shown below.
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -724,6 +738,23 @@ data = {
   &quot;target_url&quot;: &quot;http://localhost:8080&quot;
 }
 requests.post(&quot;http://localhost:8000/api/v1/alert_tasks&quot;, json=data, headers=headers)
+</code></pre>
+<h4 id="the-alert-is-a-post-request-with-the-payload-which-is-essentially-the-relevant-event-data-as-shown-below_1">The alert is a POST request with the payload, which is essentially the relevant event data, as shown below.</h4>
+<pre><code class="language-python">{
+  'args': 
+  {
+    'from': '0xDBfD76AF2157Dc15eE4e57F3f942bB45Ba84aF24', 
+    'to': '0x66aB6D9362d4F35596279692F0251Db635165871', 
+    'tokenId': 4645
+  }, 
+  'event': 'Transfer', 
+  'logIndex': 1, 
+  'transactionIndex': 0, 
+  'transactionHash': '0x09cddab1cb9014ce3974dc366b52732a5b25aa0d41971ff4ad0e6eea2f055e2e', 
+  'address': '0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D', 
+  'blockHash': '0x69d7b8162d082779ebb2efc313b19a0c3d6fa6ccfce99bf876219679f3f968d3',
+  'blockNumber': 16267740
+}
 </code></pre>
 
 
