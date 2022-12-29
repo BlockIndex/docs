@@ -13,7 +13,7 @@
     
     
       
-        <title>Developers - BlockIndex</title>
+        <title>Deployment - BlockIndex</title>
       
     
     
@@ -68,7 +68,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#developers" class="md-skip">
+        <a href="#deployment" class="md-skip">
           Skip to content
         </a>
       
@@ -101,7 +101,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Developers
+              Deployment
             
           </span>
         </div>
@@ -254,21 +254,6 @@
 
   
   
-  
-    <li class="md-nav__item">
-      <a href="../deployment/" class="md-nav__link">
-        Deployment
-      </a>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
     
   
   
@@ -281,12 +266,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          Developers
+          Deployment
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        Developers
+        Deployment
       </a>
       
         
@@ -305,56 +290,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#how-to-add-a-new-evm-compatible-blockchain" class="md-nav__link">
-    How to add a new EVM compatible blockchain
+  <a href="#environment-setup" class="md-nav__link">
+    Environment Setup
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#how-to-create-a-new-eventindexer" class="md-nav__link">
-    How to create a new EventIndexer
-  </a>
-  
-    <nav class="md-nav" aria-label="How to create a new EventIndexer">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#1-add-model" class="md-nav__link">
-    1. Add model:
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#2-add-schema" class="md-nav__link">
-    2. Add schema:
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#3-add-crud-and-endpoint" class="md-nav__link">
-    3. Add crud and endpoint.
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#4-add-indexer" class="md-nav__link">
-    4. Add indexer
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#how-to-create-a-new-alert" class="md-nav__link">
-    How to create a new Alert
+  <a href="#deploy-setup" class="md-nav__link">
+    Deploy Setup
   </a>
   
 </li>
@@ -363,6 +307,21 @@
   
 </nav>
       
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../developers/" class="md-nav__link">
+        Developers
+      </a>
     </li>
   
 
@@ -394,56 +353,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#how-to-add-a-new-evm-compatible-blockchain" class="md-nav__link">
-    How to add a new EVM compatible blockchain
+  <a href="#environment-setup" class="md-nav__link">
+    Environment Setup
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#how-to-create-a-new-eventindexer" class="md-nav__link">
-    How to create a new EventIndexer
-  </a>
-  
-    <nav class="md-nav" aria-label="How to create a new EventIndexer">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#1-add-model" class="md-nav__link">
-    1. Add model:
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#2-add-schema" class="md-nav__link">
-    2. Add schema:
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#3-add-crud-and-endpoint" class="md-nav__link">
-    3. Add crud and endpoint.
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#4-add-indexer" class="md-nav__link">
-    4. Add indexer
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#how-to-create-a-new-alert" class="md-nav__link">
-    How to create a new Alert
+  <a href="#deploy-setup" class="md-nav__link">
+    Deploy Setup
   </a>
   
 </li>
@@ -463,104 +381,67 @@
                   
 
 
-<h1 id="developers">Developers</h1>
-<h2 id="how-to-add-a-new-evm-compatible-blockchain">How to add a new EVM compatible blockchain</h2>
-<p>Add a new EVM compatible blockchain is quite easy. </p>
-<ol>
-<li>Add a new <code>ChainType</code> enum in <code>app/models/transaction.py</code> .</li>
-<li>Define config name for chain provider in <code>Settings</code> class in <code>app/core/config.py</code> .</li>
-<li>Modify <code>EVMClient.__init__</code> in <code>app/core/evm.py</code> for new chain provider.</li>
-</ol>
-<p>Then, you can add some indexer for testing new chain provider. If everything is set correctly, 
-you can see the transaction for new chain provider in <code>http://localhost:8000/api/v1/{chains}/transactions</code> .</p>
-<h2 id="how-to-create-a-new-eventindexer">How to create a new EventIndexer</h2>
-<p>We take ERC20 as an example.</p>
-<h3 id="1-add-model">1. Add model:</h3>
-<p>Add <code>erc20_trans.py</code> under <code>app/model/</code></p>
-<pre><code class="language-python">from .event_indexer import EventIndexer
-
-class ERC20Trans(EventIndexer): # 1. The model should inherit EventIndexer
-
-# 2. Should always add these 2 lines below, 
-# so BlockIndex can auto index the relationship with transactions
-    __mapper_args__ = dict(polymorphic_identity=&quot;erc20trans&quot;)
-    id = Column(Integer, ForeignKey(EventIndexer.id), primary_key=True)
-
-# 3. Add your other fields in the following...
-    from_addr = Column(String, index=True)
-    to_addr = Column(String, index=True)
-...
-</code></pre>
-<p>And do migration by running
--  <code>make makemigrations MESSAGE="message about the new indexer"</code>
--  <code>make migrate</code></p>
-<h3 id="2-add-schema">2. Add schema:</h3>
-<p>Add <code>erc20_trans.py</code> under <code>app/schemas/</code></p>
-<pre><code class="language-python">from .event_indexer import EventIndexerBase
-
-class ERC20TransBase(EventIndexerBase):  # The model should inherit EventIndexerBase
-
-    from_addr: Optional[str] = None
-    to_addr: Optional[str] = None
-</code></pre>
-<h3 id="3-add-crud-and-endpoint">3. Add crud and endpoint.</h3>
-<p>The crud and endpoint parts require no special work. You can handle it in the same way that you would a regular table.</p>
-<h3 id="4-add-indexer">4. Add indexer</h3>
-<p>Add <code>erc20_trans_indexer.py</code> under <code>app/indexer/</code></p>
-<pre><code class="language-python">from app.indexer import EventIndexerBasic
-
-class ERC20TransIndexer(EventIndexerBasic):
-
-    abi = [...]  # you need to add the abi
-
-    def _index_event(db: Session, event: Dict[str, Any], block: Dict[str, Any]):
-      # You must also implement how to save event data into the model here. And return the model obj.
-</code></pre>
-<p>!! Please add <code>ERC20TransIndexer</code> inside <code>app/indexer/__init__.py</code> as follows, or it cannot be found via BasicIndexer.<strong>subclasses</strong>()</p>
-<pre><code class="language-python">from .erc20_trans_indexer import ERC20TransIndexer
-</code></pre>
-<p>Then, when you run the rpc listener, your newly created model should be automatically indexed/updated.</p>
-<p>More information can be found in these files mentioned above.</p>
-<h2 id="how-to-create-a-new-alert">How to create a new Alert</h2>
-<p>Here we try to build a erc20 transaction alert as an example.
-1. Add ERC20TransAlertParams under <code>app/schemas/alert_task_params</code></p>
-<pre><code class="language-python">...
-class ERC20TransAlertParams(BaseModel):
-    symbols: List[str] = []
-    value_threshold: Optional[int] = 0
-    ...
-
-</code></pre>
-<ol>
-<li>Add newly created alert module inside <code>app/alert/__init__.py</code></li>
-</ol>
-<pre><code class="language-python">  from .erc20_trans_alert import ERC20TransAlert
-</code></pre>
-<ol>
-<li>Add erc20_trans_alert.py under <code>app/alert/</code>, and implement abi, params_schema, and check function<ul>
-<li>Usually, you return the params defined under <code>app/schemas/alert_task_params</code> in the <code>params_schema</code> function.</li>
+<h1 id="deployment">Deployment</h1>
+<p>For easy deployment, we use docker compose to deploy on a single machine. The diagram belows show the architecture:</p>
+<p><img alt="Deployment with docker compose" src="images/deploy.png" /></p>
+<h3 id="environment-setup">Environment Setup</h3>
+<p>Before deployment, you need to prepare docker and PostgreSQL in your environment. Here's some useful reference</p>
+<ul>
+<li><a href="https://www.docker.com/">Docker</a></li>
+<li>PostgreSQL<ul>
+<li><a href="https://www.postgresql.org/download/linux/ubuntu/">Linux downloads (Ubuntu)</a></li>
+<li><a href="https://postgresapp.com/">Postgres.app</a></li>
+<li><a href="https://cloud.google.com/sql">Google Cloud SQL</a></li>
+<li><a href="https://aws.amazon.com/tw/rds/">AWS RDS</a></li>
 </ul>
 </li>
-</ol>
-<p>```python</p>
-<p>class ERC20TransAlert(EventAlertBase):</p>
-<p>abi = ERC20_ABI</p>
-<p>@property
-  def params_schema(self) -&gt; Type[ERC20TransAlertParams]:
-      return ERC20TransAlertParams</p>
-<p>def check(self, index_addr: IndexAddr, event: EventData, params: ERC20TransAlertParams) -&gt; bool:
-    # Define the situation under which the alert will be sent.
-    # Return True if the requirement is met.
-    ...
-  ```</p>
-<ol>
-<li>Update <code>AlertClsName</code> under app/models/alert_task</li>
-</ol>
-<pre><code class="language-python">  class AlertClsName(str, enum.Enum):
-    ERC20TransAlert = &quot;ERC20TransAlert&quot;
-    ERC721TransAlert = &quot;ERC721TransAlert&quot;
-    ...
+</ul>
+<h3 id="deploy-setup">Deploy Setup</h3>
+<p>Set the following environment variables in <code>.env</code> file:</p>
+<ul>
+<li><code>COINMARKETCAP_API_KEY</code>: Your CoinMarketCap API key</li>
+<li><code>ETH_WS_URL</code>: Websocket json-RPC URL for ethereum</li>
+<li><code>POSTGRES_HOST</code>: Host for PostgreSQL</li>
+<li><code>POSTGRES_PORT</code>: Port for PostgreSQL</li>
+<li><code>POSTGRES_USER</code>: User for PostgreSQL</li>
+<li><code>POSTGRES_PASSWORD</code>: Password for PostgreSQL</li>
+<li><code>CELERY_BROKER_URL</code> (Optional): Celery broker URL</li>
+<li><code>CELERY_RESULT_BACKEND</code> (Optional): Celery Result URL</li>
+<li><code>EXT_ENDPOINT</code>: External domain name</li>
+<li><code>API_ENDPOINT</code>: FQDN for blockindex API</li>
+<li><code>FE_ENDPOINT</code>: FQDN for frontend</li>
+<li><code>STATIC_DIR</code>: The <strong>host machine</strong> directory that contains static files.</li>
+</ul>
+<p>Example for <code>.env</code> file:</p>
+<pre><code class="language-dotenv">COINMARKETCAP_API_KEY=&quot;YOUR_KEY_HERE&quot;
+PYTHONPATH=.
+ETH_WS_URL=&quot;ws://localhost:8454&quot;
+
+# PostgreSQL settings
+POSTGRES_HOST=host.docker.internal
+POSTGRES_PORT=5432
+POSTGRES_DB=blockindex
+POSTGRES_USER=blockindex
+POSTGRES_PASSWORD=blockindex
+CELERY_BROKER_URL=redis://redis:6379/0
+CELERY_RESULT_BACKEND=redis://redis:6379/0
+
+# Traefik
+EXT_ENDPOINT=blockindex.example
+API_ENDPOINT=demo-api.blockindex.dev
+FE_ENDPOINT=demo.blockindex.dev
+
+#nginx
+STATIC_DIR=/root/frontend
 </code></pre>
+<p>Finally, execute the following command in root directory:</p>
+<p><code>docker compose -f prod.yml up -d</code></p>
+<p>Then the service could be visit via the following URL:</p>
+<ul>
+<li>BlockIndex API: <code>http://api.localhost</code>, <code>http://api.${EXT_ENDPOINT}</code>, <code>http://${API_ENDPOINT}</code></li>
+<li>Static Files: <code>http://nginx.localhost</code>, <code>http://nginx.${EXT_ENDPOINT}</code>, <code>http://${FE_ENDPOINT}</code></li>
+<li>Traefik Dashboard: <code>http://traefik.localhost</code>, <code>http://traefik.${END_POINT}</code></li>
+</ul>
 
 
 
@@ -581,7 +462,7 @@ class ERC20TransAlertParams(BaseModel):
     <nav class="md-footer__inner md-grid" aria-label="Footer" >
       
         
-        <a href="../deployment/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Deployment" rel="prev">
+        <a href="../installation/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Installation" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
           </div>
@@ -590,11 +471,26 @@ class ERC20TransAlertParams(BaseModel):
               <span class="md-footer__direction">
                 Previous
               </span>
-              Deployment
+              Installation
             </div>
           </div>
         </a>
       
+      
+        
+        <a href="../developers/" class="md-footer__link md-footer__link--next" aria-label="Next: Developers" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Developers
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
       
     </nav>
   
