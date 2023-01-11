@@ -591,10 +591,16 @@ poetry install
 <pre><code class="language-shell">poetry run ./beat-worker-start.sh
 </code></pre>
 <h2 id="use-docker-compose-for-local-development">Use docker compose for local development</h2>
+<ol>
+<li>Copy <code>.env.example</code> to <code>.env</code></li>
+<li>Fill out <code>ETH_WS_URL</code> with a valid node wws url</li>
+<li>Change <code>STATIC_DIR</code> to <code>/</code></li>
+<li>Change <code>MODE</code> to <code>dev</code></li>
+</ol>
 <h3 id="build-image">Build image</h3>
-<p><code>docker compose -f local.yml build</code></p>
+<p><code>make compose_build</code></p>
 <h3 id="run-development">Run Development</h3>
-<p><code>docker compose -f local.yml up -d</code></p>
+<p><code>make compose_build</code></p>
 
 
 
