@@ -13,7 +13,7 @@
     
     
       
-        <title>Deployment - BlockIndex</title>
+        <title>Indexer - BlockIndex</title>
       
     
     
@@ -68,7 +68,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#deployment" class="md-skip">
+        <a href="#indexer-documentation" class="md-skip">
           Skip to content
         </a>
       
@@ -101,7 +101,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Deployment
+              Indexer
             
           </span>
         </div>
@@ -239,11 +239,52 @@
 
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../indexer/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Indexer
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Indexer
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-create-a-new-indexer" class="md-nav__link">
+    How to create a new Indexer
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -284,59 +325,11 @@
 
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Deployment
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../deployment/" class="md-nav__link">
         Deployment
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#environment-setup" class="md-nav__link">
-    Environment Setup
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#deploy-setup" class="md-nav__link">
-    Deploy Setup
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -383,15 +376,8 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#environment-setup" class="md-nav__link">
-    Environment Setup
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#deploy-setup" class="md-nav__link">
-    Deploy Setup
+  <a href="#how-to-create-a-new-indexer" class="md-nav__link">
+    How to create a new Indexer
   </a>
   
 </li>
@@ -411,67 +397,94 @@
                   
 
 
-<h1 id="deployment">Deployment</h1>
-<p>For easy deployment, we use docker compose to deploy on a single machine. The diagram belows show the architecture:</p>
-<p><img alt="Deployment with docker compose" src="images/deploy.png" /></p>
-<h3 id="environment-setup">Environment Setup</h3>
-<p>Before deployment, you need to prepare docker and PostgreSQL in your environment. Here's some useful reference</p>
+<h1 id="indexer-documentation">Indexer Documentation</h1>
+<p>You can use BlockIndex to create your own custom indexers. This documentation will walk you through the process of creating a new indexer. </p>
+<h2 id="how-to-create-a-new-indexer">How to create a new Indexer</h2>
+<p>We take ERC20 as an example. </p>
+<p>To create a new indexer, you can simply POST <code>/v1/api/indexer</code> API with the following payload</p>
+<pre><code class="language-json">{
+    &quot;name&quot;: &quot;test&quot;,
+    &quot;fields&quot;: {
+      &quot;contract_address&quot;: {
+        &quot;type&quot;: &quot;string&quot;,
+        &quot;value&quot;: &quot;{{ event['address'] }}&quot;
+      },
+      &quot;from&quot;: {
+        &quot;type&quot;: &quot;string&quot;,
+        &quot;value&quot;: &quot;{{ event['args']['from'] }}&quot;
+      },
+      &quot;to&quot;: {
+        &quot;type&quot;: &quot;string&quot;,
+        &quot;value&quot;: &quot;{{ event['args']['to'] }}&quot;
+      },
+      &quot;value&quot;: {
+        &quot;type&quot;: &quot;int&quot;,
+        &quot;value&quot;: &quot;{{ event['args']['value'] }}&quot;,
+        &quot;default&quot;: 0
+      }
+    },
+    &quot;abi&quot;: [&quot;erc20 abi here...&quot;],
+    &quot;trigger&quot;: {&quot;event&quot;: &quot;Transfer&quot;},
+    &quot;chain_type&quot;: &quot;ETH&quot;
+}
+</code></pre>
+<p>The <code>name</code> field is the name of the indexer. The <code>fields</code> field is the fields that you want to index. The <code>abi</code> field is the abi of the contract. The <code>trigger</code> field is the event that you want to trigger the indexer. The <code>chain_type</code> field is the chain type that you want to index.</p>
+<p>The <code>fields</code> field is a dictionary. The key is the field name. The value is a dictionary. The properties of the dictionary are:</p>
 <ul>
-<li><a href="https://www.docker.com/">Docker</a></li>
-<li>PostgreSQL<ul>
-<li><a href="https://www.postgresql.org/download/linux/ubuntu/">Linux downloads (Ubuntu)</a></li>
-<li><a href="https://postgresapp.com/">Postgres.app</a></li>
-<li><a href="https://cloud.google.com/sql">Google Cloud SQL</a></li>
-<li><a href="https://aws.amazon.com/tw/rds/">AWS RDS</a></li>
-</ul>
+<li><code>type</code>: The type of the field. The type can be <code>string</code>, <code>int</code></li>
+<li>
+<p><code>value</code>: The value of the field. The value is a jinja2 template string. You can use the syntax <code>{{ var }}</code> to get access the value of variable <code>var</code>. There are some predefined variables that you can use:</p>
+<ul>
+<li><code>event</code>: The event that triggered the indexer. It contains all the information of the event. </li>
+<li><code>event['address']</code>: The address of the contract that triggered the indexer.</li>
+<li><code>event['args']</code>: The arguments of the event.</li>
+<li><code>event['args']['from']</code>: The <code>from</code> argument of the event.</li>
+<li><code>event['args']['to']</code>: The <code>to</code> argument of the event.</li>
+<li><code>event['args']['value']</code>: The <code>value</code> argument of the event.</li>
+<li><code>event['blockNumber']</code>: The block number of the event.</li>
+<li><code>event['transactionHash']</code>: The transaction hash of the event.</li>
+<li><code>event['transactionIndex']</code>: The transaction index of the event.</li>
+<li>
+<p><code>event['logIndex']</code>: The log index of the event.</p>
+</li>
+<li>
+<p><code>tx</code>: The transaction that triggered the indexer. It contains all the information in the transaction.</p>
+</li>
+<li><code>tx['hash']</code>: The transaction hash.</li>
+<li><code>tx['nonce']</code>: The nonce of the transaction.</li>
+<li><code>tx['blockHash']</code>: The block hash of the transaction.</li>
+<li><code>tx['blockNumber']</code>: The block number of the transaction.</li>
+<li><code>tx['transactionIndex']</code>: The transaction index of the transaction.</li>
+<li><code>tx['from']</code>: The <code>from</code> address of the transaction.</li>
+<li><code>tx['to']</code>: The <code>to</code> address of the transaction.</li>
+<li><code>tx['value']</code>: The <code>value</code> of the transaction.</li>
+<li><code>tx['gas']</code>: The gas of the transaction.</li>
+<li><code>tx['gasPrice']</code>: The gas price of the transaction.</li>
+<li>
+<p><code>tx['input']</code>: The input of the transaction.</p>
+</li>
+<li>
+<p><code>block</code>: The block that triggered the indexer. It contains all the information in the block.</p>
+</li>
+<li><code>block['number']</code>: The block number.</li>
+<li><code>block['hash']</code>: The block hash.</li>
+<li><code>block['timestamp']</code>: The timestamp of the block.</li>
+<li><code>block['parentHash']</code>: The parent hash of the block.</li>
+<li><code>block['nonce']</code>: The nonce of the block.</li>
+<li>
+<p><code>block['transactions']</code>: The transactions root of the block.</p>
+</li>
+<li>
+<p><code>timestamp</code>: Current timestamp</p>
 </li>
 </ul>
-<h3 id="deploy-setup">Deploy Setup</h3>
-<p>Set the following environment variables in <code>.env</code> file:</p>
-<ul>
-<li><code>COINMARKETCAP_API_KEY</code>: Your CoinMarketCap API key</li>
-<li><code>ETH_WS_URL</code>: Websocket json-RPC URL for ethereum</li>
-<li><code>POSTGRES_HOST</code>: Host for PostgreSQL</li>
-<li><code>POSTGRES_PORT</code>: Port for PostgreSQL</li>
-<li><code>POSTGRES_USER</code>: User for PostgreSQL</li>
-<li><code>POSTGRES_PASSWORD</code>: Password for PostgreSQL</li>
-<li><code>CELERY_BROKER_URL</code> (Optional): Celery broker URL</li>
-<li><code>CELERY_RESULT_BACKEND</code> (Optional): Celery Result URL</li>
-<li><code>EXT_ENDPOINT</code>: External domain name</li>
-<li><code>API_ENDPOINT</code>: FQDN for blockindex API</li>
-<li><code>FE_ENDPOINT</code>: FQDN for frontend</li>
-<li><code>STATIC_DIR</code>: The <strong>host machine</strong> directory that contains static files.</li>
+</li>
+<li>
+<p><code>default</code>: The default value of the field.</p>
+</li>
 </ul>
-<p>Example for <code>.env</code> file:</p>
-<pre><code class="language-dotenv">COINMARKETCAP_API_KEY=&quot;YOUR_KEY_HERE&quot;
-PYTHONPATH=.
-ETH_WS_URL=&quot;ws://localhost:8454&quot;
-
-# PostgreSQL settings
-POSTGRES_HOST=host.docker.internal
-POSTGRES_PORT=5432
-POSTGRES_DB=blockindex
-POSTGRES_USER=blockindex
-POSTGRES_PASSWORD=blockindex
-CELERY_BROKER_URL=redis://redis:6379/0
-CELERY_RESULT_BACKEND=redis://redis:6379/0
-
-# Traefik
-EXT_ENDPOINT=blockindex.example
-API_ENDPOINT=demo-api.blockindex.dev
-FE_ENDPOINT=demo.blockindex.dev
-
-#nginx
-STATIC_DIR=/root/frontend
-</code></pre>
-<p>Finally, execute the following command in root directory:</p>
-<p><code>docker compose -f prod.yml up -d</code></p>
-<p>Then the service could be visit via the following URL:</p>
-<ul>
-<li>BlockIndex API: <code>http://api.localhost</code>, <code>http://api.${EXT_ENDPOINT}</code>, <code>http://${API_ENDPOINT}</code></li>
-<li>Static Files: <code>http://nginx.localhost</code>, <code>http://nginx.${EXT_ENDPOINT}</code>, <code>http://${FE_ENDPOINT}</code></li>
-<li>Traefik Dashboard: <code>http://traefik.localhost</code>, <code>http://traefik.${END_POINT}</code></li>
-</ul>
+<p>And then a table will be created in the database. The table name is <code>{name}_indexer</code>. The table will have columns based on the fields you defined.
+When indexing criteria is met, the indexer will be triggered. The indexer will insert a row into the table with the values you defined.</p>
 
 
 
@@ -492,7 +505,7 @@ STATIC_DIR=/root/frontend
     <nav class="md-footer__inner md-grid" aria-label="Footer" >
       
         
-        <a href="../config/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Configuration" rel="prev">
+        <a href="../alert/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Alert" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
           </div>
@@ -501,20 +514,20 @@ STATIC_DIR=/root/frontend
               <span class="md-footer__direction">
                 Previous
               </span>
-              Configuration
+              Alert
             </div>
           </div>
         </a>
       
       
         
-        <a href="../developers/" class="md-footer__link md-footer__link--next" aria-label="Next: Developers" rel="next">
+        <a href="../installation/" class="md-footer__link md-footer__link--next" aria-label="Next: Installation" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Developers
+              Installation
             </div>
           </div>
           <div class="md-footer__button md-icon">
