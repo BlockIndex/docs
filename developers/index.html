@@ -500,6 +500,7 @@
 <li>Add a new <code>ChainType</code> enum in <code>app/models/transaction.py</code> .</li>
 <li>Define config name for chain provider in <code>Settings</code> class in <code>app/core/config.py</code> .</li>
 <li>Modify <code>EVMClient.__init__</code> in <code>app/core/evm.py</code> for new chain provider.</li>
+<li>Update <code>get_supported_chains</code> in <code>rpc_listener.py</code>.</li>
 </ol>
 <p>Then, you can add some indexer for testing new chain provider. If everything is set correctly, 
 you can see the transaction for new chain provider in <code>http://localhost:8000/api/v1/{chains}/transactions</code> .</p>
